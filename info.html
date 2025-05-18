@@ -1,24 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>Info Page</title>
+    <script>
+    if (localStorage.getItem("unlocked") !== "true") {
+      alert("คุณต้องปลดล็อคก่อนเข้าถึงหน้านี้");
+      window.location.href = "index.html"; // เปลี่ยนเป็นหน้ารหัสผ่านของคุณ
+    }
+  </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>รายละเอียดคำใบ้</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
+      font-family: 'Prompt', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-    a {
-      text-decoration: none;
-      color: blue;
-      font-weight: bold;
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00796b;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #444;
+    }
+
+    .button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #004d40;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to the Info Page</h1>
-  <p>This page contains more details about the project.</p>
-  <a href="index.html">← Back to Home</a>
+  <div class="container">
+    <h1>คำใบ้ทั้งหมดที่พี่ให้น้องได้</h1>
+    <p>
+      <div>เป็นผช.ทั้งคู่</div>
+      <div>ย้ายมาเพ็ญพิทตอนม.ปลาย</div>
+      <div>คนนึงเกิด2552 อีกคนเกิด2551</div><br><br><BR><BR>
+      <img width="200" src="img/IMG_5977.JPG" alt="ใบ้">
+    </p>
+    <button class="button" onclick="goBack()">ย้อนกลับ</button>
+  </div>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
 </html>
+  
