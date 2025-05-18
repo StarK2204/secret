@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>หาคำใบ้เอานะจ๊ะ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(180deg, #000000, #222222);
+      color: white;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    .hidden { display: none; }
+
+    .container {
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00c853;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #00b248;
+    }
+
+    .pin-display {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .pin-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+    }
+
+    .pin-dot.filled {
+      background-color: white;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-gap: 20px;
+      justify-content: center;
+    }
+
+    .key {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      font-size: 32px;
+      text-align: center;
+      line-height: 80px;
+      cursor: pointer;
+    }
+
+    .key:active {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .key.special { font-size: 24px; }
+
+    #secretBox {
+      display: none;
+      margin-top: 30px;
+      font-size: 20px;
+      color: #00e676;
+    }
+    .button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #00c853;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #00b248;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 หน้าอธิบาย -->
+  <div id="welcomeScreen" class="container">
+    <h2>หารหัสมาใส่เองนะจ๊ะ</h2>
+    <p>รหัสพี่ใบ้ในกระดาษ</p>
+    <button class="button" onclick="goToPin()">ดำเนินการต่อ</button>
+  </div>
+
+  <!-- 🔹 หน้ากรอก PIN -->
+  <div id="pinScreen" class="hidden">
+    <div id="pinTitle">กรุณาใส่รหัสผ่าน</div>
+    <div class="pin-display" id="pinDisplay">
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+    </div>
+
+    <div class="keypad">
+      <div class="key" data-key="1">1</div>
+      <div class="key" data-key="2">2</div>
+      <div class="key" data-key="3">3</div>
+      <div class="key" data-key="4">4</div>
+      <div class="key" data-key="5">5</div>
+      <div class="key" data-key="6">6</div>
+      <div class="key" data-key="7">7</div>
+      <div class="key" data-key="8">8</div>
+      <div class="key" data-key="9">9</div>
+      <div class="key"></div>
+      <div class="key" data-key="0">0</div>
+      <div class="key special" id="keyBackspace">⌫</div>
+    </div>
+
+    <div id="secretBox" style="display: none;">
+        <p>
+          <div>เก่งมากกกกก</div>
+          <div>หน้าต่อไปคือคำใบ้แล้ว</div>
+        </p>
+        <button id="nextButton" class="button">ไปต่อ</button>
+      </div>     
+  </div>
+
+  <script>
+    const correctPIN = "36"; // เปลี่ยนรหัสได้ที่นี่
+    let enteredPIN = "";
+
+    const welcomeScreen = document.getElementById("welcomeScreen");
+    const pinScreen = document.getElementById("pinScreen");
+    const pinDots = document.querySelectorAll(".pin-dot");
+    const secretBox = document.getElementById("secretBox");
+
+    function goToPin() {
+      welcomeScreen.classList.add("hidden");
+      pinScreen.classList.remove("hidden");
+    }
+
+    function updatePinDisplay() {
+      pinDots.forEach((dot, idx) => {
+        dot.classList.toggle("filled", idx < enteredPIN.length);
+      });
+    }
+
+   function checkPIN() {
+  if (enteredPIN.length === 2) {
+    if (enteredPIN === correctPIN) {
+      document.querySelector(".keypad").style.display = "none";
+      document.getElementById("pinTitle").style.display = "none";
+      document.getElementById("pinDisplay").style.display = "none";
+
+      // ✅ แสดงข้อความยินดี
+      secretBox.style.display = "block";
+
+      // ✅ รอฟังคลิกปุ่ม "ไปต่อ"
+      document.getElementById("nextButton").addEventListener("click", () => {
+        localStorage.setItem("unlocked", "true");
+        window.location.href = "info.html";
+      });
+
+
+        } else {
+          alert("ไม่ถูกนะจ๊ะ");
+          enteredPIN = "";
+          updatePinDisplay();
+        }
+      }
+    }
+
+    document.querySelector(".keypad").addEventListener("click", e => {
+      if (!e.target.classList.contains("key") || !e.target.dataset.key) return;
+      if (enteredPIN.length < 4) {
+        enteredPIN += e.target.dataset.key;
+        updatePinDisplay();
+        checkPIN();
+      }
+    });
+
+    document.getElementById("keyBackspace").addEventListener("click", () => {
+      enteredPIN = enteredPIN.slice(0, -1);
+      updatePinDisplay();
+    });
+
+    document.getElementById("nextButton").addEventListener("click", () => {
+     // ไปยังหน้าใหม่ หรือทำอย่างอื่นที่คุณต้องการ
+      window.location.href = "info.html"; // <-- เปลี่ยนเป็นหน้าเป้าหมายจริงของคุณ
+    });
+
+
+  </script>
+</body>
+</html>
